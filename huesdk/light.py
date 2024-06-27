@@ -12,7 +12,10 @@ class Light:
         self.sdk = sdk
 
         self.id_ = light_id
-        self.name = kwargs.get('name', None)
+        for kword in kwargs.keys():
+            if (not kword.startswith("_") and kword not in self.__dict__):
+                    self.__dict__[kword] = kwargs[kword]
+
         if 'state' in kwargs:
             self.is_on = kwargs['state'].get('on', False)
             self.bri = kwargs['state'].get('bri', None)
