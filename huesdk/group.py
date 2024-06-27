@@ -11,8 +11,10 @@ class Group:
 
         self.sdk = sdk
         self.id_ = group_id
-
-        self.name = kwargs.get('name', None)
+        
+        for kword in kwargs.keys():
+            if (not kword.startswith("_") and kword not in self.__dict__):
+                    self.__dict__[kword] = kwargs[kword]
 
         if 'action' in kwargs:
             self.is_on = kwargs['action'].get('on', False)
@@ -52,3 +54,9 @@ class Group:
     def set_name(self, name):
         self._put({"name": name})
         self.name = name
+        
+    def get_lights(self):
+        lights = []
+        for light in self.lights:
+            lights.append(self.sdk.get_light(id_=light))
+        return lights
